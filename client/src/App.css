@@ -1,0 +1,392 @@
+* {
+  box-sizing: border-box;
+  --color-black: #21222A;
+  --color-grey: #696d6f;
+  --color-orange: #ecac0c;
+  --color-white: #cfd3d3;
+}
+
+body {
+  font-family: "Poppins", sans-serif;
+  background-color: var(--color-black);
+}
+
+.navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding-bottom: 0;
+  position: fixed;
+  top: 0;
+  z-index: 5;
+  background-color: var(--color-black);
+}
+.navbar .nav-leftpart {
+  vertical-align: middle;
+  width: calc(100% - 10rem);
+  text-decoration: none;
+}
+.navbar .nav-leftpart h2 {
+  margin-left: 3rem;
+  margin-right: 1.5rem;
+  padding-left: 5px;
+  border-bottom: var(--color-grey) 1px solid;
+  font-weight: 500;
+  color: var(--color-white);
+}
+.navbar .nav-leftpart h2:hover {
+  color: #ecac0c;
+  cursor: pointer;
+  border-bottom: var(--color-orange) 1px solid;
+}
+.navbar .nav-rightpart {
+  text-decoration: none;
+}
+.navbar .nav-rightpart h3 {
+  margin-right: 3rem;
+  font-weight: 500;
+  color: var(--color-white);
+}
+.navbar .nav-rightpart h3:hover {
+  color: #ecac0c;
+  cursor: pointer;
+}
+
+.main {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  min-height: 100vh;
+  padding-top: 50px;
+  padding-bottom: 50px;
+}
+
+.todolist {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 60%;
+  margin-top: 50px;
+}
+.todolist .new-task {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: var(--color-white);
+  border-bottom: var(--color-grey) 1px solid;
+  padding-left: 10px;
+  padding-right: 10px;
+  text-decoration: none;
+}
+.todolist .new-task h4 {
+  padding-left: 0.5rem;
+  transform: scale(97%);
+  margin-top: 0.4rem;
+  margin-bottom: 0.4rem;
+}
+.todolist .new-task h4:hover {
+  color: var(--color-orange);
+  cursor: pointer;
+  transform: scale(100%);
+}
+.todolist .new-task .fa-pencil-alt {
+  color: var(--color-orange);
+}
+.todolist .each-todo {
+  display: flex;
+  align-items: center;
+  width: 70%;
+  height: 4.5rem;
+  color: var(--color-white);
+  font-size: 1.3rem;
+  border-bottom: var(--color-grey) 1px solid;
+  padding-left: 0.5rem;
+}
+.todolist .each-todo .each-todo-leftpart {
+  display: flex;
+  align-items: center;
+  height: 100%;
+  width: calc(100% - 3.5rem);
+  padding: 0.3rem 0;
+  position: relative;
+}
+.todolist .each-todo .each-todo-leftpart .each-todo-main-msg {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 100%;
+  margin-left: 0.3rem;
+}
+.todolist .each-todo .each-todo-leftpart .each-todo-main-msg h5 {
+  line-height: 100%;
+  margin: 0;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  font-weight: 500;
+}
+.todolist .each-todo .each-todo-leftpart .each-todo-main-msg h6 {
+  line-height: 100%;
+  margin: 0;
+  padding-bottom: 8px;
+  color: var(--color-grey);
+  font-weight: 400;
+}
+.todolist .each-todo .each-todo-leftpart:hover {
+  cursor: pointer;
+}
+.todolist .each-todo .each-todo-leftpart:hover::before {
+  content: "";
+  position: absolute;
+  transform: translateX(-0.5rem);
+  width: calc(100% + 4rem);
+  height: 100%;
+  border-bottom: var(--color-orange) 1px solid;
+}
+.todolist .each-todo .each-todo-leftpart .fa-circle {
+  font-size: 0.3rem;
+  margin-right: 0.3rem;
+  color: var(--color-orange);
+}
+.todolist .each-todo .each-todo-rightpart {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  width: 3rem;
+  height: 100%;
+}
+.todolist .each-todo .each-todo-rightpart .fa-star {
+  font-size: 1rem;
+  transform: scale(97%);
+}
+.todolist .each-todo .each-todo-rightpart .fa-star:hover {
+  color: var(--color-orange);
+  cursor: pointer;
+  transform: scale(100%);
+}
+.todolist .each-todo .each-todo-rightpart .fa-trash-alt {
+  font-size: 1rem;
+  transform: scale(97%);
+}
+.todolist .each-todo .each-todo-rightpart .fa-trash-alt:hover {
+  color: var(--color-orange);
+  cursor: pointer;
+  transform: scale(100%);
+}
+.todolist .each-todo .delete-confirm-dialog {
+  display: flex;
+  align-items: center;
+  height: 4rem;
+}
+.todolist .each-todo .delete-confirm-dialog .dialog-box-triangle {
+  width: 0;
+  height: 0;
+  border-top: 5px solid transparent;
+  border-bottom: 5px solid transparent;
+  border-left: 3px solid transparent;
+  border-right: 7px solid var(--color-orange);
+  position: relative;
+}
+.todolist .each-todo .delete-confirm-dialog .dialog-box-triangle::after {
+  content: "";
+  width: 0;
+  height: 0;
+  border-top: 5px solid transparent;
+  border-bottom: 5px solid transparent;
+  border-left: 3px solid transparent;
+  border-right: 7px solid var(--color-black);
+  position: absolute;
+  bottom: -5px;
+  left: -1px;
+}
+.todolist .each-todo .delete-confirm-dialog .dialog-box {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 3.5rem;
+  height: 2.5rem;
+  padding-left: 2px;
+  padding-right: 2px;
+  border: 1px solid var(--color-orange);
+  border-radius: 3px;
+}
+.todolist .each-todo .delete-confirm-dialog .dialog-box h6 {
+  margin-top: 0;
+  margin-bottom: 0;
+  font-weight: 400;
+  text-align: center;
+}
+.todolist .each-todo .delete-confirm-dialog .dialog-box .dialog-icon {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 0;
+  text-align: center;
+}
+.todolist .each-todo .delete-confirm-dialog .dialog-box .dialog-icon i {
+  color: aqua;
+  font-size: 0.8rem;
+  transform: scale(95%);
+}
+.todolist .each-todo .delete-confirm-dialog .dialog-box .dialog-icon i:hover {
+  cursor: pointer;
+  color: var(--color-orange);
+  transform: scale(100%);
+}
+
+.form-for-new-edit-login-register {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  width: 60%;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  color: var(--color-white);
+  border: 1px var(--color-grey) solid;
+  border-radius: 5px;
+}
+.form-for-new-edit-login-register .register-hint:hover {
+  cursor: pointer;
+  color: var(--color-orange);
+}
+.form-for-new-edit-login-register label {
+  width: 70%;
+}
+.form-for-new-edit-login-register label .warning {
+  margin: 0;
+  color: var(--color-orange);
+}
+.form-for-new-edit-login-register #detail, .form-for-new-edit-login-register #task,
+.form-for-new-edit-login-register #username,
+.form-for-new-edit-login-register #email,
+.form-for-new-edit-login-register #password,
+.form-for-new-edit-login-register #comfirmPassword {
+  width: 100%;
+  border-radius: 5px;
+  font-size: 15px;
+  text-indent: 5px;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  resize: vertical;
+  overflow: hidden;
+  background-color: var(--color-black);
+  color: var(--color-white);
+}
+.form-for-new-edit-login-register #detail:focus, .form-for-new-edit-login-register #task:focus,
+.form-for-new-edit-login-register #username:focus,
+.form-for-new-edit-login-register #email:focus,
+.form-for-new-edit-login-register #password:focus,
+.form-for-new-edit-login-register #comfirmPassword:focus {
+  outline: var(--color-orange) 2px solid;
+}
+.form-for-new-edit-login-register .form-for-new-edit-login-register-bottom .btn-wrap .btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 5px;
+  border: var(--color-grey) 1px solid;
+  border-radius: 3px;
+  width: 60px;
+  height: 30px;
+  font-size: 14px;
+  background-color: var(--color-black);
+  color: var(--color-white);
+  text-decoration: none;
+}
+.form-for-new-edit-login-register .form-for-new-edit-login-register-bottom .btn-wrap .btn:hover {
+  cursor: pointer;
+  border-color: var(--color-orange);
+}
+.form-for-new-edit-login-register #task,
+.form-for-new-edit-login-register #username,
+.form-for-new-edit-login-register #email,
+.form-for-new-edit-login-register #password,
+.form-for-new-edit-login-register #comfirmPassword {
+  min-height: 45px;
+}
+.form-for-new-edit-login-register #detail {
+  min-height: 100px;
+  padding-top: 5px;
+}
+.form-for-new-edit-login-register #form-for-edit-bottom,
+.form-for-new-edit-login-register #form-for-register {
+  justify-content: flex-end;
+}
+.form-for-new-edit-login-register .form-for-new-edit-login-register-bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 70%;
+}
+.form-for-new-edit-login-register .form-for-new-edit-login-register-bottom .label-urgent {
+  display: flex;
+  align-items: center;
+  font-size: 15px;
+  width: auto;
+  padding-right: 10px;
+}
+.form-for-new-edit-login-register .form-for-new-edit-login-register-bottom .label-urgent:hover {
+  cursor: pointer;
+}
+.form-for-new-edit-login-register .form-for-new-edit-login-register-bottom .btn-wrap {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+.form-for-new-edit-login-register .form-for-new-edit-login-register-bottom .btn-wrap .register-btn {
+  display: flex;
+  align-items: center;
+}
+.form-for-new-edit-login-register .form-for-new-edit-login-register-bottom .btn-wrap .register-btn :last-child {
+  margin-left: 0.5rem;
+}
+@media screen and (max-width: 800px) {
+  .todolist {
+    width: 90%;
+  }
+}
+@media screen and (max-width: 550px) {
+  .form-for-new-edit-login-register-bottom .btn-wrap {
+    flex-direction: column;
+    align-items: flex-end !important;
+  }
+  .form-for-new-edit-login-register-bottom .btn-wrap .register-btn {
+    display: flex;
+    justify-content: flex-end;
+    width: 100%;
+    height: 2.8rem;
+  }
+}
+@media screen and (max-width: 860px) {
+  .each-todo {
+    height: 5.5rem !important;
+  }
+}
+@media screen and (max-width: 470px) {
+  .each-todo {
+    height: 7rem !important;
+  }
+}
+@media screen and (max-width: 390px) {
+  .each-todo {
+    height: 8rem !important;
+  }
+}
+@media screen and (max-width: 360px) {
+  .each-todo {
+    height: 8.5rem !important;
+  }
+}
+@media screen and (max-width: 335px) {
+  .each-todo {
+    height: 9.5rem !important;
+  }
+}
+@media screen and (max-width: 310px) {
+  .each-todo {
+    height: 10rem !important;
+  }
+}/*# sourceMappingURL=App.css.map */

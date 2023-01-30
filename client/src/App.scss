@@ -1,0 +1,399 @@
+* {
+  box-sizing: border-box;
+  --color-black: #21222A;
+  --color-grey: #696d6f;
+  --color-orange: #ecac0c;
+  --color-white: #cfd3d3;
+}
+
+body {
+  font-family: 'Poppins', sans-serif;
+  background-color: var(--color-black);
+}
+
+.navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding-bottom: 0;
+  position: fixed;
+  top: 0;
+  z-index: 5;
+  background-color: var(--color-black);
+
+  .nav-leftpart {
+    vertical-align: middle;
+    width: calc(100% - 10rem);
+    text-decoration: none;
+
+    h2 {
+      margin-left: 3rem;
+      margin-right: 1.5rem;
+      padding-left: 5px;
+      border-bottom: var(--color-grey) 1px solid;
+      font-weight: 500;
+      color: var(--color-white);
+
+      &:hover {
+        color: #ecac0c;
+        cursor: pointer;
+        border-bottom: var(--color-orange) 1px solid;
+      }
+    }
+  }
+
+  .nav-rightpart {
+    text-decoration: none;
+
+    h3 {
+      margin-right: 3rem;
+      font-weight: 500;
+      color: var(--color-white);
+
+      &:hover {
+        color: #ecac0c;
+        cursor: pointer;
+      }
+    }
+  }
+}
+
+.main {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  min-height: 100vh;
+  padding-top: 50px;
+  padding-bottom: 50px;
+}
+
+.todolist {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 60%;
+  margin-top: 50px;
+
+  .new-task {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: var(--color-white);
+    border-bottom: var(--color-grey) 1px solid;
+    padding-left: 10px;
+    padding-right: 10px;
+    text-decoration: none;
+
+    h4 {
+      padding-left: .5rem;
+      transform: scale(97%);
+      margin-top: .4rem;
+      margin-bottom: .4rem;
+
+      &:hover {
+        color: var(--color-orange);
+        cursor: pointer;
+        transform: scale(100%);
+      }
+    }
+
+    .fa-pencil-alt {
+      color: var(--color-orange);
+    }
+  }
+
+  .each-todo {
+    display: flex;
+    align-items: center;
+    width: 70%;
+    height: 4.5rem;
+    color: var(--color-white);
+    font-size: 1.3rem;
+    border-bottom: var(--color-grey) 1px solid;
+    padding-left: .5rem;
+
+    .each-todo-leftpart {
+      display: flex;
+      align-items: center;
+      height: 100%;
+      width: calc(100% - 3.5rem);
+      padding: .3rem 0;
+      position: relative;
+
+      .each-todo-main-msg {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        height: 100%;
+        margin-left: .3rem;
+
+        h5 {
+          line-height: 100%;
+          margin: 0;
+          padding-top: 8px;
+          padding-bottom: 8px;
+          font-weight: 500;
+        }
+
+        h6 {
+          line-height: 100%;
+          margin: 0;
+          padding-bottom: 8px;
+          color: var(--color-grey);
+          font-weight: 400;
+        }
+      }
+
+      &:hover {
+        cursor: pointer;
+      }
+
+      &:hover::before {
+        content: "";
+        position: absolute;
+        transform: translateX(-0.5rem);
+        width: calc(100% + 4rem);
+        height: 100%;
+        border-bottom: var(--color-orange) 1px solid;
+      }
+
+      .fa-circle {
+        font-size: .3rem;
+        margin-right: .3rem;
+        color: var(--color-orange);
+      }
+    }
+
+    .each-todo-rightpart {
+      display: flex;
+      justify-content: space-evenly;
+      align-items: center;
+      width: 3rem;
+      height: 100%;
+
+      .fa-star {
+        font-size: 1rem;
+        transform: scale(97%);
+
+        &:hover {
+          color: var(--color-orange);
+          cursor: pointer;
+          transform: scale(100%);
+        }
+      }
+
+      .fa-trash-alt {
+        font-size: 1rem;
+        transform: scale(97%);
+
+        &:hover {
+          color: var(--color-orange);
+          cursor: pointer;
+          transform: scale(100%);
+        }
+      }
+    }
+
+    .delete-confirm-dialog {
+      display: flex;
+      align-items: center;
+      height: 4rem;
+
+      // 利用長寬為0，設定border粗度，並將上下左的border設為透明，僅留右側border為橘色，來做出尖端朝左的三角形。但它是個橘色實心三角形，所以後面用::after做一個黑色三角形覆蓋一部分，讓它看起來只有邊線
+      .dialog-box-triangle {
+        width: 0;
+        height: 0;
+        border-top: 5px solid transparent;
+        border-bottom: 5px solid transparent;
+        border-left: 3px solid transparent;
+        border-right: 7px solid var(--color-orange);
+        position: relative;
+
+        &::after {
+          content: "";
+          width: 0;
+          height: 0;
+          border-top: 5px solid transparent;
+          border-bottom: 5px solid transparent;
+          border-left: 3px solid transparent;
+          border-right: 7px solid var(--color-black);
+          position: absolute;
+          bottom: -5px;
+          left: -1px;
+        }
+      }
+
+      .dialog-box {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        width: 3.5rem;
+        height: 2.5rem;
+        padding-left: 2px;
+        padding-right: 2px;
+        border: 1px solid var(--color-orange);
+        border-radius: 3px;
+
+        h6 {
+          margin-top: 0;
+          margin-bottom: 0;
+          font-weight: 400;
+          text-align: center;
+        }
+
+        .dialog-icon {
+          display: flex;
+          justify-content: space-around;
+          margin-top: 0;
+          text-align: center;
+
+          i {
+            color: aqua;
+            font-size: .8rem;
+            transform: scale(95%);
+
+            &:hover {
+              cursor: pointer;
+              color: var(--color-orange);
+              transform: scale(100%);
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+.form-for-new-edit-login-register {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  width: 60%;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  color: var(--color-white);
+  border: 1px var(--color-grey) solid;
+  border-radius: 5px;
+
+  .register-hint {
+    &:hover {
+      cursor: pointer;
+      color: var(--color-orange);
+    }
+  }
+
+  label {
+    width: 70%;
+
+    .warning {
+      margin: 0;
+      color: var(--color-orange);
+    }
+  }
+
+  // 使用SCSS的繼承功能
+  %input-textarea-style-extend {
+    width: 100%;
+    border-radius: 5px;
+    font-size: 15px;
+    text-indent: 5px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    //限定textarea只能上下擴張
+    resize: vertical;
+    overflow: hidden;
+    background-color: var(--color-black);
+    color: var(--color-white);
+
+    &:focus {
+      //當輸入框被聚焦時改變邊框顏色
+      outline: var(--color-orange) 2px solid;
+    }
+  }
+
+  %btn-style {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: 5px;
+    border: var(--color-grey) 1px solid;
+    border-radius: 3px;
+    width: 60px;
+    height: 30px;
+    font-size: 14px;
+    background-color: var(--color-black);
+    color: var(--color-white);
+    text-decoration: none;
+
+    &:hover {
+      cursor: pointer;
+      border-color: var(--color-orange);
+    }
+  }
+
+  #task,
+  #username,
+  #email,
+  #password,
+  #comfirmPassword {
+    @extend %input-textarea-style-extend;
+    min-height: 45px;
+  }
+
+  #detail {
+    @extend %input-textarea-style-extend;
+    min-height: 100px;
+    padding-top: 5px;
+  }
+
+  #form-for-edit-bottom,
+  #form-for-register {
+    justify-content: flex-end;
+  }
+
+  .form-for-new-edit-login-register-bottom {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 70%;
+
+    .label-urgent {
+      display: flex;
+      align-items: center;
+      font-size: 15px;
+      width: auto;
+      padding-right: 10px;
+
+      &:hover {
+        cursor: pointer;
+      }
+    }
+
+    .btn-wrap {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: 100%;
+
+      .register-btn {
+        display: flex;
+        align-items: center;
+
+        :last-child {
+          margin-left: .5rem;
+        }
+      }
+
+      .btn {
+        @extend %btn-style;
+      }
+    }
+  }
+}
+
+
+@import './media'
