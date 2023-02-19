@@ -15,9 +15,7 @@ export default function OAuthLogin() {
 
   return (
     <main className="main">
-      <form className="form-for-new-edit-login-register" action="/todo/oauthlogin" method="POST">
-        <button className="btn" onClick={loginWithGithub}> Login with Github</button>
-      </form>
+      <button className="btn" onClick={loginWithGithub}> Login with Github</button>
     </main>
   )
 }
