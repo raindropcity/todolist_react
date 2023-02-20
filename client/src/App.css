@@ -331,9 +331,8 @@ body {
   cursor: pointer;
 }
 .form-for-new-edit-login-register .form-for-new-edit-login-register-bottom .btn-wrap {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr;
   width: 100%;
 }
 .form-for-new-edit-login-register .form-for-new-edit-login-register-bottom .btn-wrap .register-btn {
@@ -342,6 +341,18 @@ body {
 }
 .form-for-new-edit-login-register .form-for-new-edit-login-register-bottom .btn-wrap .register-btn :last-child {
   margin-left: 0.5rem;
+}
+.form-for-new-edit-login-register .form-for-new-edit-login-register-bottom .btn-wrap .btn-wrap-inner {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.form-for-new-edit-login-register .form-for-new-edit-login-register-bottom .btn-wrap .btn-wrap-inner .btn-oauth {
+  width: auto;
+  height: auto;
+}
+.form-for-new-edit-login-register .form-for-new-edit-login-register-bottom .btn-wrap .btn-wrap-inner .btn {
+  width: 100%;
 }
 @media screen and (max-width: 800px) {
   .todolist {

@@ -2,7 +2,6 @@ import React, { useState } from "react"
 import Navbar from "./components/Navbar"
 import Todos from "./components/Todos"
 import Login from "./components/Login"
-import OAuthLogin from "./components/OAuthLogin"
 import Register from "./components/Register"
 import New from "./components/New"
 import Edit from "./components/Edit"
@@ -107,7 +106,6 @@ function App() {
           </main>
         } />
         <Route path="/todo/login" element={<Login inputDataUserInfo={inputDataUserInfo} setInputDataUserInfo={setInputDataUserInfo} setInputData={setInputData} setToRegister={setToRegister} />} />
-        <Route path="/todo/oauthlogin" element={<OAuthLogin />} />
         <Route path="/todo/register" element={<Register inputDataUserInfo={inputDataUserInfo} setInputDataUserInfo={setInputDataUserInfo} setToRegister={setToRegister} />} />
         {/* New */}
         <Route path="/todo/new" element={<New inputData={inputData} setInputData={setInputData} setNewTodoSuccessOrNot={setNewTodoSuccessOrNot} />} />

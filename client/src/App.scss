@@ -374,9 +374,8 @@ body {
     }
 
     .btn-wrap {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr;
       width: 100%;
 
       .register-btn {
@@ -385,6 +384,21 @@ body {
 
         :last-child {
           margin-left: .5rem;
+        }
+      }
+
+      .btn-wrap-inner {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        .btn-oauth {
+          width: auto;
+          height: auto;
+        }
+
+        .btn {
+          width: 100%;
         }
       }
 

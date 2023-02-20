@@ -1,5 +1,6 @@
 import React from "react"
 import { Link, useNavigate } from "react-router-dom"
+import OAuthLogin from "./OAuthLogin"
 import axios from "axios"
 
 export default function Login(props) {
@@ -72,10 +73,15 @@ export default function Login(props) {
                 setToRegister(true)
               }}>register</Link>
             </div>
-            <button className="btn" onClick={(event) => {
-              event.preventDefault()
-              setLoginClicked(true)
-            }} >login</button>
+            <div className="btn-wrap-inner">
+              <OAuthLogin />
+            </div>
+            <div className="btn-wrap-inner">
+              <button className="btn" onClick={(event) => {
+                event.preventDefault()
+                setLoginClicked(true)
+              }} >login</button>
+            </div>
           </div>
         </div>
       </form>

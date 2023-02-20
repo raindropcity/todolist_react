@@ -14,8 +14,6 @@ export default function OAuthLogin() {
   }
 
   return (
-    <main className="main">
-      <button className="btn" onClick={loginWithGithub}> Login with Github</button>
-    </main>
+    <button className="btn btn-oauth" onClick={loginWithGithub}> Login with Github</button>
   )
 }
