@@ -349,7 +349,7 @@ body {
 }
 .form-for-new-edit-login-register .form-for-new-edit-login-register-bottom .btn-wrap .btn-wrap-inner .btn-oauth {
   width: auto;
-  height: auto;
+  min-height: 30px;
 }
 .form-for-new-edit-login-register .form-for-new-edit-login-register-bottom .btn-wrap .btn-wrap-inner .btn {
   width: 100%;
@@ -361,14 +361,25 @@ body {
 }
 @media screen and (max-width: 550px) {
   .form-for-new-edit-login-register-bottom .btn-wrap {
+    display: flex !important;
+    justify-content: center;
     flex-direction: column;
     align-items: flex-end !important;
+  }
+  .form-for-new-edit-login-register-bottom .btn-wrap :last-child {
+    margin-top: 5px;
   }
   .form-for-new-edit-login-register-bottom .btn-wrap .register-btn {
     display: flex;
     justify-content: flex-end;
     width: 100%;
     height: 2.8rem;
+  }
+  .form-for-new-edit-login-register-bottom .btn-wrap .btn-wrap-inner {
+    width: 100%;
+  }
+  .form-for-new-edit-login-register-bottom .btn-wrap .btn-wrap-inner .btn {
+    width: 100%;
   }
 }
 @media screen and (max-width: 860px) {

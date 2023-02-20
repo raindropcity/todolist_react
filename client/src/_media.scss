@@ -7,14 +7,28 @@
 @media screen and (max-width: 550px) {
   .form-for-new-edit-login-register-bottom {
     .btn-wrap {
+      display: flex !important;
+      justify-content: center;
       flex-direction: column;
       align-items: flex-end !important;
+
+      :last-child {
+        margin-top: 5px;
+      }
 
       .register-btn {
         display: flex;
         justify-content: flex-end;
         width: 100%;
         height: 2.8rem;
+      }
+
+      .btn-wrap-inner {
+        width: 100%;
+
+        .btn {
+          width: 100%;
+        }
       }
     }
   }

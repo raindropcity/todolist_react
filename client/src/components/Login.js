@@ -56,7 +56,7 @@ export default function Login(props) {
 
   return (
     <main className="main">
-      <form className="form-for-new-edit-login-register" action="/todo/login" method="POST">
+      <div className="form-for-new-edit-login-register">
         <label htmlFor="email">
           <input type="text" name="email" id="email" placeholder="Email" onChange={handleChangeData} value={inputDataUserInfo.email} required />
           {warning.email && <h5 className="warning">{warning.email}</h5>}
@@ -84,7 +84,7 @@ export default function Login(props) {
             </div>
           </div>
         </div>
-      </form>
+      </div>
     </main>
   )
 }
