@@ -29,7 +29,7 @@ function App() {
     comfirmPassword: ""
   })
 
-  const [usenameForNav, setUsernameForNav] = useState('')
+  const [usernameForNav, setUsernameForNav] = useState('')
 
   const [catchTodos, setCatchTodos] = React.useState([])
   const [newTodoSuccessOrNot, setNewTodoSuccessOrNot] = React.useState(false)
@@ -68,19 +68,7 @@ function App() {
     }
 
     fetchData()
-  }, [catchTodos, newTodoSuccessOrNot, editTodoSuccessOrNot, deleteTodoSuccessOrNot, loginSuccessOrNot])
-
-  // loginSuccessOrNot的用途是於user登入並redirect到首頁後，re-render出所有todos
-  // React.useEffect(() => {
-  //   axios.get('/api/todo/user-auth-state')
-  //     .then((dataFromBackend) => {
-  //       if (dataFromBackend.data.userAuthenticated) {
-  //         setLoginSuccessOrNot(true)
-  //         setUsernameForNav(dataFromBackend.data.username)
-  //       }
-  //     })
-  //     .catch((err) => console.log(err))
-  // })
+  }, [catchTodos, newTodoSuccessOrNot, editTodoSuccessOrNot, deleteTodoSuccessOrNot, loginSuccessOrNot, usernameForNav])
 
   console.log(catchTodos)
   console.log('re-render')
@@ -94,7 +82,7 @@ function App() {
   return (
     <Router>
       <EnsureAuthenticatedUser />
-      <Navbar setInputData={setInputData} loginSuccessOrNot={loginSuccessOrNot} setLoginSuccessOrNot={setLoginSuccessOrNot} usenameForNav={usenameForNav} setUsernameForNav={setUsernameForNav} warning={warning} setWarning={setWarning} />
+      <Navbar setInputData={setInputData} loginSuccessOrNot={loginSuccessOrNot} setLoginSuccessOrNot={setLoginSuccessOrNot} usernameForNav={usernameForNav} setUsernameForNav={setUsernameForNav} setWarning={setWarning} />
       <Routes>
         {/* 列示所有todo */}
         <Route path="/todo" element={

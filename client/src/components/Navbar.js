@@ -3,7 +3,7 @@ import { Link } from "react-router-dom"
 import axios from "axios"
 
 export default function Navbar(props) {
-  const { setInputData, loginSuccessOrNot, setLoginSuccessOrNot, usenameForNav, setUsernameForNav, warning, setWarning } = props
+  const { setInputData, loginSuccessOrNot, setLoginSuccessOrNot, usernameForNav, setUsernameForNav, setWarning } = props
   const [logOutClicked, setLogOutClicked] = React.useState(false)
 
   React.useEffect(() => {
@@ -13,11 +13,11 @@ export default function Navbar(props) {
       .then((responseFromBackend) => {
         if (!responseFromBackend.data) {
           setLoginSuccessOrNot(false)
-          setUsernameForNav('')
         }
       })
       .catch((err) => console.log(err))
 
+    setUsernameForNav('')
     setWarning({ authenticationState: false, msg: '' })
     setLogOutClicked(false)
   }, [logOutClicked, loginSuccessOrNot])
@@ -35,7 +35,7 @@ export default function Navbar(props) {
           })
         })
       }}>
-        <h2>{usenameForNav && <span style={{ color: '#ecac0c' }}>{usenameForNav}'s </span>}TodoList</h2>
+        <h2>{usernameForNav && <span style={{ color: '#ecac0c' }}>{usernameForNav}'s </span>}TodoList</h2>
       </Link>
       <Link to="/todo/login" className="nav-rightpart" onClick={() => {
         setLogOutClicked(true)

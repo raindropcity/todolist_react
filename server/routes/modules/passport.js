@@ -21,7 +21,7 @@ const Strategy = new LocalStrategy(
       if (foundUser.password !== password) return done(null, false, { type: 'password', message: 'incorrect password' })
       // 驗證成功，回傳從資料庫中找到的user資料(在此取名為foundUser)
       return done(null, foundUser)
-    })// 有問題!!!!!!!!!!!!!!! verify function 因為 missing credential 而沒有被執行!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    })
   }
 )
 // 使用驗證策略

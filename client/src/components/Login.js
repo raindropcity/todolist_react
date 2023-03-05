@@ -34,7 +34,7 @@ export default function Login(props) {
               userID: responseFromBackend.data.user._id
             })
           })
-          setUsernameForNav(responseFromBackend.data.user.username)
+          setUsernameForNav(responseFromBackend.data.user.userName)
           setLoginSuccessOrNot(true)
         }
         else if (!responseFromBackend.data.authenticationState) {
