@@ -2,8 +2,10 @@ const express = require('express')
 const app = express()
 const cors = require('cors')
 const Router = require('./server/routes/routes')
+const passport = require('./server/routes/modules/passport').exportedPassport
 const session = require('express-session')
 const MongoDBStore = require('connect-mongodb-session')(session)
+const User = require('./server/models/user')
 const PORT = process.env.PORT || 3002
 
 app.use(cors())
@@ -28,6 +30,21 @@ app.use(session({
     collection: 'mySessions'
   }) //設定session要存放的資料庫位子(存在MongoDB裡面)
 }))
+
+// 初始化passport
+app.use(passport.initialize())
+app.use(passport.session())
+
+// serializeUser()控制「要將哪些通過驗證的使用者資訊(物件形式)存進req.session.passport.user中」，這邊是將使用者的「_id」存進去。
+passport.serializeUser((userObj, done) => {
+  done(null, userObj._id)
+})
+// deserializeUser()則用於使用serializeUser()存進去req.session.passport.user的userObj._id 去尋找該使用者的整包資料，並將該物件存入req.user中，供後續取用。
+passport.deserializeUser((id, done) => {
+  User.findById(id, (err, foundUser) => {
+    done(err, foundUser)
+  })
+})
 
 // 引用總路由
 app.use(Router)

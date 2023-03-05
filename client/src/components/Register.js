@@ -22,7 +22,7 @@ export default function Register(props) {
   const [dataPosted, setDataPosted] = React.useState(false)
 
   const [warning, setWarning] = React.useState({
-    username: false,
+    userName: false,
     email: false,
     password: false,
     comfirmPassword: false
@@ -41,7 +41,7 @@ export default function Register(props) {
         setDataPosted(true)
         // 如果POST、資料存進資料庫成功，清空inputDataUserInfo
         setInputDataUserInfo({
-          username: "",
+          userName: "",
           email: "",
           password: "",
           comfirmPassword: ""
@@ -63,9 +63,9 @@ export default function Register(props) {
         <h5 className="register-hint" onClick={() => { navigate('/todo/login') }}>Signed Successfully!</h5>
       </div> :
         <form className="form-for-new-edit-login-register" action="/todo/register" method="POST">
-          <label htmlFor="username">
-            <input type="text" name="username" id="username" placeholder="Username" onChange={handleChangeData} value={inputDataUserInfo.username} required />
-            {warning.username && <h5 className="warning">{warning.username}</h5>}
+          <label htmlFor="userName">
+            <input type="text" name="userName" id="userName" placeholder="Username" onChange={handleChangeData} value={inputDataUserInfo.username} required />
+            {warning.userName && <h5 className="warning">{warning.userName}</h5>}
           </label>
           <label htmlFor="email">
             <input type="text" name="email" id="email" placeholder="Email" onChange={handleChangeData} value={inputDataUserInfo.email} required />

@@ -36,7 +36,7 @@ module.exports = function (app) {
     changeOrigin: true,
   })
   )
-  app.use(createProxyMiddleware('/api/todo/user-auth-state', {
+  app.use(createProxyMiddleware('/api/todo/logout', {
     target: 'http://localhost:3002',
     changeOrigin: true,
   })

@@ -2,18 +2,17 @@
 const express = require('express')
 const router = express.Router()
 const Todo = require('../../models/todo')
-const ensureAuthenticated = require('./todo').ensureAuthenticated
+const ensureAuthenticated = require('./passport').ensureAuthenticated
 
-router.get('/api/todo', ensureAuthenticated, express.json(), (req, res) => {
-  console.log(req.session.userID)
-  Todo.find({ userID: req.session.userID })
+router.get('/api/todo', express.json(), ensureAuthenticated, (req, res) => {
+  Todo.find({ userID: req.user._id })
     .then((todos) => {
       res.status(200).json(todos)
     })
     .catch((err) => console.log(err))
 })
 
-router.put('/api/todo', ensureAuthenticated, express.json(), (req, res) => {
+router.put('/api/todo', express.json(), ensureAuthenticated, (req, res) => {
   const { currentTodoId } = req.body
   Todo.findById(currentTodoId)
     .then((todo) => {
@@ -23,7 +22,7 @@ router.put('/api/todo', ensureAuthenticated, express.json(), (req, res) => {
 })
 
 // 控制首頁按下星號後，於該todo前加上橘色點點
-router.put('/api/changeUrgentState', ensureAuthenticated, express.json(), (req, res) => {
+router.put('/api/changeUrgentState', express.json(), ensureAuthenticated, (req, res) => {
   const { id, urgent } = req.body
 
   Todo.findById(id)
@@ -36,7 +35,7 @@ router.put('/api/changeUrgentState', ensureAuthenticated, express.json(), (req, 
 })
 
 // 刪除特定todo
-router.put('/api/deleteTodo', ensureAuthenticated, express.json(), (req, res) => {
+router.put('/api/deleteTodo', express.json(), ensureAuthenticated, (req, res) => {
   const { id } = req.body
 
   Todo.findById(id)

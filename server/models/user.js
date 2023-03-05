@@ -8,7 +8,7 @@ const userSchema = new Schema({
   password: {
     type: String
   },
-  username: {
+  userName: {
     type: String
   },
   confirmPassword: {

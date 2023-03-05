@@ -23,7 +23,7 @@ function App() {
   })
 
   const [inputDataUserInfo, setInputDataUserInfo] = React.useState({
-    username: "",
+    userName: "",
     email: "",
     password: "",
     comfirmPassword: ""
@@ -37,6 +37,7 @@ function App() {
   const [deleteTodoSuccessOrNot, setDeleteTodoSuccessOrNot] = React.useState(false)
   const [loginSuccessOrNot, setLoginSuccessOrNot] = React.useState(false)
   const [toRegister, setToRegister] = React.useState(false)
+  const [warning, setWarning] = React.useState({ authenticationState: false, msg: '' })
 
   // useNavigate()只能用在child component中，因此將未通過中介軟體ensureAuthenticated的情況，另外建立一個component，並加入App.js的JSX中
   function EnsureAuthenticatedUser() {
@@ -45,7 +46,8 @@ function App() {
       if (toRegister) return
       axios.get('/api/todo')
         .then((dataFromBackend) => {
-          if (JSON.stringify(dataFromBackend.data) === '{"ensureAuthenticated":false}') {
+          if (dataFromBackend.data.authenticationState === false) {
+            console.log('frontend router protection')
             setLoginSuccessOrNot(false)
             navigate('/todo/login')
           }
@@ -58,7 +60,7 @@ function App() {
     const fetchData = async () => {
       try {
         const dataFromBackend = await axios.get('/api/todo')
-        if (JSON.stringify(dataFromBackend.data) === '{"ensureAuthenticated":false}') return
+        if (dataFromBackend.data.authenticationState === false) return console.log('not login yet')
         if (JSON.stringify(catchTodos) !== JSON.stringify(dataFromBackend.data)) setCatchTodos(dataFromBackend.data)
       } catch (err) {
         console.log(err)
@@ -69,17 +71,18 @@ function App() {
   }, [catchTodos, newTodoSuccessOrNot, editTodoSuccessOrNot, deleteTodoSuccessOrNot, loginSuccessOrNot])
 
   // loginSuccessOrNot的用途是於user登入並redirect到首頁後，re-render出所有todos
-  React.useEffect(() => {
-    axios.get('/api/todo/user-auth-state')
-      .then((dataFromBackend) => {
-        if (dataFromBackend.data.userAuthenticated) {
-          setLoginSuccessOrNot(true)
-          setUsernameForNav(dataFromBackend.data.username)
-        }
-      })
-      .catch((err) => console.log(err))
-  })
+  // React.useEffect(() => {
+  //   axios.get('/api/todo/user-auth-state')
+  //     .then((dataFromBackend) => {
+  //       if (dataFromBackend.data.userAuthenticated) {
+  //         setLoginSuccessOrNot(true)
+  //         setUsernameForNav(dataFromBackend.data.username)
+  //       }
+  //     })
+  //     .catch((err) => console.log(err))
+  // })
 
+  console.log(catchTodos)
   console.log('re-render')
 
   const todos = catchTodos.map((todo) => {
@@ -91,7 +94,7 @@ function App() {
   return (
     <Router>
       <EnsureAuthenticatedUser />
-      <Navbar setInputData={setInputData} setLoginSuccessOrNot={setLoginSuccessOrNot} usenameForNav={usenameForNav} setUsernameForNav={setUsernameForNav} />
+      <Navbar setInputData={setInputData} loginSuccessOrNot={loginSuccessOrNot} setLoginSuccessOrNot={setLoginSuccessOrNot} usenameForNav={usenameForNav} setUsernameForNav={setUsernameForNav} warning={warning} setWarning={setWarning} />
       <Routes>
         {/* 列示所有todo */}
         <Route path="/todo" element={
@@ -105,7 +108,7 @@ function App() {
             </div>
           </main>
         } />
-        <Route path="/todo/login" element={<Login inputDataUserInfo={inputDataUserInfo} setInputDataUserInfo={setInputDataUserInfo} setInputData={setInputData} setToRegister={setToRegister} />} />
+        <Route path="/todo/login" element={<Login inputDataUserInfo={inputDataUserInfo} setInputDataUserInfo={setInputDataUserInfo} setInputData={setInputData} setUsernameForNav={setUsernameForNav} setLoginSuccessOrNot={setLoginSuccessOrNot} warning={warning} setWarning={setWarning} setToRegister={setToRegister} />} />
         <Route path="/todo/register" element={<Register inputDataUserInfo={inputDataUserInfo} setInputDataUserInfo={setInputDataUserInfo} setToRegister={setToRegister} />} />
         {/* New */}
         <Route path="/todo/new" element={<New inputData={inputData} setInputData={setInputData} setNewTodoSuccessOrNot={setNewTodoSuccessOrNot} />} />

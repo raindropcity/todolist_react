@@ -2,6 +2,7 @@ const express = require('express')
 const router = express.Router()
 const Todo = require('../../models/todo')
 const User = require('../../models/user')
+const ensureAuthenticated = require('./passport').ensureAuthenticated
 const { check, validationResult } = require('express-validator')
 
 
@@ -11,7 +12,7 @@ const validatorStrategyForNewAndEdit = [
 ]
 
 const validatorStrategyForRegisterAndLogin = [
-  check('username').trim().notEmpty().withMessage('required field').bail().isLength({ max: 12 }).withMessage('must be within 12 characters'),
+  check('userName').trim().notEmpty().withMessage('required field').bail().isLength({ max: 12 }).withMessage('must be within 12 characters'),
   check('email').trim().notEmpty().withMessage('required field').bail().isEmail().withMessage('invalid email').bail().custom(async (value) => {
     const existOrNot = await User.findOne({ email: value })
     if (existOrNot) throw new Error('this email has already been signed')
@@ -25,7 +26,7 @@ const validatorStrategyForRegisterAndLogin = [
 ]
 
 // Create：從前端的 New.js 接收資料(todo資料)
-router.post('/api/todo/new', ensureAuthenticated, express.json(), validatorStrategyForNewAndEdit, (req, res) => {
+router.post('/api/todo/new', express.json(), ensureAuthenticated, validatorStrategyForNewAndEdit, (req, res) => {
   const { userID, task, detail, urgent, time } = req.body
   // 創建一個instance，存放前端傳過來的資料，後續會使用mongoose方法將這包資料存入MongoDB。(因為此物件中的key與value相同，因此可以這樣簡寫)
   const dataFromFrontend = new Todo({
@@ -59,7 +60,7 @@ router.post('/api/todo/new', ensureAuthenticated, express.json(), validatorStrat
 })
 
 // Update：修改某筆todo
-router.put('/api/todo/edit', ensureAuthenticated, express.json(), validatorStrategyForNewAndEdit, (req, res) => {
+router.put('/api/todo/edit', express.json(), ensureAuthenticated, validatorStrategyForNewAndEdit, (req, res) => {
   console.log(req.body)
   // 未通過express-validator
   const somethingWrong = validationResult(req)
@@ -90,8 +91,8 @@ router.put('/api/todo/edit', ensureAuthenticated, express.json(), validatorStrat
 // Create：從前端的 Register.js 接收資料(user資料)
 router.post('/api/todo/register', express.json(), validatorStrategyForRegisterAndLogin, (req, res) => {
   console.log(req.body)
-  const { username, email, password, comfirmPassword } = req.body
-  const dataFromFrontend = new User({ username, email, password, comfirmPassword })
+  const { userName, email, password, comfirmPassword } = req.body
+  const dataFromFrontend = new User({ userName, email, password, comfirmPassword })
   // 未通過express-validator
   const somethingWrong = validationResult(req)
   let errMsgObj = {}
@@ -113,79 +114,65 @@ router.post('/api/todo/register', express.json(), validatorStrategyForRegisterAn
   })
 })
 
-// 使用者身分驗證
-// 比對req.body過來的email有沒有在DB裡面，若有，接續確認password是否正確；若無，res錯誤提示
-// 確認email與password都正確後，在req.session中建一個userAuthenticated: true。並res該使用者的 _id給前端
-// create todo時要自動一併存入使用者的 _id
-// 首頁render時，只render該使用者 _id的 todo出來
-// LogOut時，req.session.authenticated要變為false，讓ensureAuthenticated去阻擋未登入者的操作
-router.post('/api/todo/login', express.json(), (req, res) => {
-  const { email, password } = req.body
-  User.findOne({ email: email }, (err, foundUser) => {
-    // mongoose發生錯誤
-    if (err) return console.log(err)
-    // 驗證失敗
-    else if (!foundUser) {
-      return res.status(404).json({
-        wrongByUserInput: true,
-        email: 'unsigned email'
-      })
-    }
-    else if (password !== foundUser.password) {
-      return res.status(404).json({
-        wrongByUserInput: true,
-        password: 'incorrect password'
-      })
-    }
-    // 驗證成功
-    req.session.userAuthenticated = true
-    req.session.userID = foundUser._id
-    req.session.username = foundUser.username
-    console.log(req.session.userAuthenticated)
-    return res.status(200).json({
-      userAuthSuccess: true,
-      authedUser: foundUser
-    })
-  })
-})
+// // 使用者身分驗證
+// // 比對req.body過來的email有沒有在DB裡面，若有，接續確認password是否正確；若無，res錯誤提示
+// // 確認email與password都正確後，在req.session中建一個userAuthenticated: true。並res該使用者的 _id給前端
+// // create todo時要自動一併存入使用者的 _id
+// // 首頁render時，只render該使用者 _id的 todo出來
+// // LogOut時，req.session.authenticated要變為false，讓ensureAuthenticated去阻擋未登入者的操作
+// router.post('/api/todo/login', express.json(), (req, res) => {
+//   const { email, password } = req.body
+//   User.findOne({ email: email }, (err, foundUser) => {
+//     // mongoose發生錯誤
+//     if (err) return console.log(err)
+//     // 驗證失敗
+//     else if (!foundUser) {
+//       return res.status(404).json({
+//         wrongByUserInput: true,
+//         email: 'unsigned email'
+//       })
+//     }
+//     else if (password !== foundUser.password) {
+//       return res.status(404).json({
+//         wrongByUserInput: true,
+//         password: 'incorrect password'
+//       })
+//     }
+//     // 驗證成功
+//     req.session.userAuthenticated = true
+//     req.session.userID = foundUser._id
+//     req.session.username = foundUser.username
+//     console.log(req.session.userAuthenticated)
+//     return res.status(200).json({
+//       userAuthSuccess: true,
+//       authedUser: foundUser
+//     })
+//   })
+// })
 
-router.get('/api/todo/user-auth-state', express.json(), (req, res) => {
-  return res.json({
-    userAuthenticated: req.session.userAuthenticated,
-    username: req.session.username
-  })
-})
+// router.get('/api/todo/user-auth-state', express.json(), (req, res) => {
+//   return res.json({
+//     userAuthenticated: req.session.userAuthenticated,
+//     username: req.session.username
+//   })
+// })
 
-router.post('/api/todo/user-auth-state', express.json(), (req, res) => {
-  console.log(req.body.logOutClicked)
-  if (req.body.logOutClicked) {
-    req.session.userAuthenticated = false
-    req.session.userID = undefined
-  }
-  return res.json(req.session.userAuthenticated)
-})
+// router.post('/api/todo/user-auth-state', express.json(), (req, res) => {
+//   console.log(req.body.logOutClicked)
+//   if (req.body.logOutClicked) {
+//     req.session.userAuthenticated = false
+//     req.session.userID = undefined
+//   }
+//   return res.json(req.session.userAuthenticated)
+// })
 
-function ensureAuthenticated(req, res, next) {
-  console.log('ensureAuthenticated:' + req.session.userAuthenticated)
-  if (req.session.userAuthenticated === undefined || req.session.userAuthenticated === null || !req.session.userAuthenticated) {
-    console.log('ensureAuthenticated:' + req.session.userAuthenticated)
-    return res.json({ ensureAuthenticated: false })
-  }
-  return next()
-}
+// function ensureAuthenticated(req, res, next) {
+//   console.log('ensureAuthenticated:' + req.session.userAuthenticated)
+//   if (req.session.userAuthenticated === undefined || req.session.userAuthenticated === null || !req.session.userAuthenticated) {
+//     console.log('ensureAuthenticated:' + req.session.userAuthenticated)
+//     return res.json({ ensureAuthenticated: false })
+//   }
+//   return next()
+// }
 
-module.exports = {
-  router: router,
-  ensureAuthenticated: ensureAuthenticated
-}
-
-
-// req.session.userAuthenticated 紀錄使用者登入情形(true或false)
-// (1) 於Login 頁面key入email與password，若驗證成功，req.session.userAuthenticated = true，並導向'/todo'
-// (2) 點擊Navbar 的LogOut 按鈕後，req.session.userAuthenticated = false，並導向'/todo/login'
-// (3) 每個request 有設定中介軟體ensureAuthenticated，如果req.session.userAuthenticated 是undefined、null或false的話，return掉這個request，以防使用者於未登入狀態下能夠操作各項功能，並導向'/todo/login'
-
-// 想辦法在Login 驗證成功後，讓首頁re-render，把todos 顯示出來(目前要手動按重新整理才可以顯示)
-// New 新的todo時要一併紀錄當前user的id
-
-// 密碼加密
+module.exports = router

@@ -4,7 +4,7 @@ import OAuthLogin from "./OAuthLogin"
 import axios from "axios"
 
 export default function Login(props) {
-  const { inputDataUserInfo, setInputDataUserInfo, setInputData, setToRegister, setUsernameForNav } = props
+  const { inputDataUserInfo, setInputDataUserInfo, setInputData, setToRegister, setUsernameForNav, warning, setWarning, setLoginSuccessOrNot } = props
 
   const [loginClicked, setLoginClicked] = React.useState(false)
 
@@ -19,38 +19,39 @@ export default function Login(props) {
   }
 
   const navigate = useNavigate()
-  const [warning, setWarning] = React.useState({
-    email: false,
-    password: false
-  })
 
   React.useEffect(() => {
     if (loginClicked === false) return
 
     axios.post('/api/todo/login', inputDataUserInfo)
       .then((responseFromBackend) => {
-        navigate('/todo')
-        if (responseFromBackend.data.userAuthSuccess) {
+        console.log(responseFromBackend.data)
+
+        if (responseFromBackend.data.authenticationState) {
           setInputData((prev) => {
             return ({
               ...prev,
-              userID: responseFromBackend.data.authedUser._id
+              userID: responseFromBackend.data.user._id
             })
           })
-
-          setUsernameForNav(responseFromBackend.data.authedUser.username)
+          setUsernameForNav(responseFromBackend.data.user.username)
+          setLoginSuccessOrNot(true)
+        }
+        else if (!responseFromBackend.data.authenticationState) {
+          setLoginClicked(false)
+          setWarning({ authenticationState: true, msg: responseFromBackend.data.warning })
+          return
         }
         // 如果POST、資料存進資料庫成功，清空inputDataUserInfo
         setInputDataUserInfo({
-          username: "",
+          userName: "",
           email: "",
           password: "",
           comfirmPassword: ""
         })
+        navigate('/todo')
       })
-      .catch((err) => {
-        if (err.response.data.wrongByUserInput) setWarning(err.response.data)
-      })
+      .catch((err) => console.log(err))
 
   }, [loginClicked, navigate])
 
@@ -58,12 +59,11 @@ export default function Login(props) {
     <main className="main">
       <div className="form-for-new-edit-login-register">
         <label htmlFor="email">
-          <input type="text" name="email" id="email" placeholder="Email" onChange={handleChangeData} value={inputDataUserInfo.email} required />
-          {warning.email && <h5 className="warning">{warning.email}</h5>}
+          <input type="email" name="email" id="email" placeholder="Email" onChange={handleChangeData} value={inputDataUserInfo.email} required />
         </label>
         <label htmlFor="password">
-          <input type="text" name="password" id="password" placeholder="Password" onChange={handleChangeData} value={inputDataUserInfo.password} />
-          {warning.password && <h5 className="warning">{warning.password}</h5>}
+          <input type="password" name="password" id="password" placeholder="Password" onChange={handleChangeData} value={inputDataUserInfo.password} />
+          {warning.authenticationState && <h5 className="warning">{warning.msg}</h5>}
         </label>
         <div className="form-for-new-edit-login-register-bottom">
           <div className="btn-wrap">

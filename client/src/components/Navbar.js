@@ -3,13 +3,13 @@ import { Link } from "react-router-dom"
 import axios from "axios"
 
 export default function Navbar(props) {
-  const { setInputData, setLoginSuccessOrNot, usenameForNav, setUsernameForNav } = props
+  const { setInputData, loginSuccessOrNot, setLoginSuccessOrNot, usenameForNav, setUsernameForNav, warning, setWarning } = props
   const [logOutClicked, setLogOutClicked] = React.useState(false)
 
   React.useEffect(() => {
     if (logOutClicked === false) return
-    // 傳logOutClicked去後端，如果它是true，將req.session.userAuthenticated改成false
-    axios.post('/api/todo/user-auth-state', { logOutClicked: logOutClicked })
+
+    axios.post('/api/todo/logout')
       .then((responseFromBackend) => {
         if (!responseFromBackend.data) {
           setLoginSuccessOrNot(false)
@@ -18,8 +18,9 @@ export default function Navbar(props) {
       })
       .catch((err) => console.log(err))
 
+    setWarning({ authenticationState: false, msg: '' })
     setLogOutClicked(false)
-  }, [logOutClicked])
+  }, [logOutClicked, loginSuccessOrNot])
 
   return (
     <div className="navbar">
