@@ -35,6 +35,7 @@ function App() {
   const [newTodoSuccessOrNot, setNewTodoSuccessOrNot] = React.useState(false)
   const [editTodoSuccessOrNot, setEditTodoSuccessOrNot] = React.useState(false)
   const [deleteTodoSuccessOrNot, setDeleteTodoSuccessOrNot] = React.useState(false)
+  const [changeUrgentState, setChangeUrgentState] = React.useState(false)
   const [loginSuccessOrNot, setLoginSuccessOrNot] = React.useState(false)
   const [toRegister, setToRegister] = React.useState(false)
   const [warning, setWarning] = React.useState({ authenticationState: false, msg: '' })
@@ -68,14 +69,14 @@ function App() {
     }
 
     fetchData()
-  }, [catchTodos, newTodoSuccessOrNot, editTodoSuccessOrNot, deleteTodoSuccessOrNot, loginSuccessOrNot, usernameForNav])
+  }, [catchTodos, newTodoSuccessOrNot, editTodoSuccessOrNot, deleteTodoSuccessOrNot, loginSuccessOrNot, usernameForNav, changeUrgentState])
 
   console.log(catchTodos)
   console.log('re-render')
 
   const todos = catchTodos.map((todo) => {
     return (
-      <Todos key={todo._id} todo={todo} setDeleteTodoSuccessOrNot={setDeleteTodoSuccessOrNot} />
+      <Todos key={todo._id} todo={todo} setDeleteTodoSuccessOrNot={setDeleteTodoSuccessOrNot} setChangeUrgentState={setChangeUrgentState} />
     )
   })
 

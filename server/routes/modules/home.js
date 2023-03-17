@@ -23,13 +23,12 @@ router.put('/api/todo', express.json(), ensureAuthenticated, (req, res) => {
 
 // 控制首頁按下星號後，於該todo前加上橘色點點
 router.put('/api/changeUrgentState', express.json(), ensureAuthenticated, (req, res) => {
-  const { id, urgent } = req.body
-
+  const { id } = req.body
   Todo.findById(id)
     .then((todo) => {
-      todo.urgent = urgent
+      todo.urgent = !todo.urgent
       todo.save()
-      return res.status(200).json({ urgentStateChanged: true })
+      return res.status(200).json({ urgentStateChanged: todo.urgent })
     })
     .catch((err) => console.log(err))
 })
