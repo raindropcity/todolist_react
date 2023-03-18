@@ -4,7 +4,7 @@ import axios from "axios"
 
 export default function Todos(props) {
   // 一般來說，當state被修改時會觸發re-render，但前提是該state要有用在 JSX 中。
-  const { changeUrgentState, setChangeUrgentState } = props
+  const { setChangeUrgentState } = props
   // 跟後端互動(使用axios)屬於side effect，要使用useEffect()，但是useEffect()無法直接寫在event handler函式裡面，因此宣告一個state叫做starIsClicked，當click事件發生時，它會變成true，藉此當starIsClicked是true時，useEffect()的後續內容可以被執行。也就是使用axios向後端發出請求。
   const [starIsClicked, setStarIsClicked] = React.useState(false)
   React.useEffect(() => {
