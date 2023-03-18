@@ -17,7 +17,7 @@ export default function Navbar(props) {
       })
       .catch((err) => console.log(err))
 
-    setUsernameForNav('')
+    setUsernameForNav(undefined)
     setWarning({ authenticationState: false, msg: '' })
     setLogOutClicked(false)
   }, [logOutClicked, loginSuccessOrNot])

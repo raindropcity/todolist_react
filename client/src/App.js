@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React from "react"
 import Navbar from "./components/Navbar"
 import Todos from "./components/Todos"
 import Login from "./components/Login"
@@ -29,7 +29,7 @@ function App() {
     comfirmPassword: ""
   })
 
-  const [usernameForNav, setUsernameForNav] = useState('')
+  const [usernameForNav, setUsernameForNav] = React.useState(undefined)
 
   const [catchTodos, setCatchTodos] = React.useState([])
   const [newTodoSuccessOrNot, setNewTodoSuccessOrNot] = React.useState(false)
