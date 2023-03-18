@@ -11,7 +11,7 @@ export default function Todos(props) {
     if (starIsClicked === false) return
     // 發出修改某筆資料中的urgent值。同時傳id給後端，讓後端可以使用findById()去找出哪一筆資料的urgent值要修改
     axios.put('/api/changeUrgentState', { id: props.todo._id })
-      .then((dataFromBackend) => {
+      .then(() => {
         setChangeUrgentState(true)
       })
       .catch((err) => console.log(err))
