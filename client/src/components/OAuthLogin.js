@@ -23,18 +23,15 @@ export default function OAuthLogin() {
     console.log(parseThecode)
 
     // local storage雖然有被任何人看到的風險
-    // 但可以暫存資料一陣子(例如本例用來存放access token)，如此，當user暫時離開以登入的app頁面一下，再回來時，還會是登入狀態
+    // 但可以暫存資料一陣子(例如本例用來存放access token)，如此，當user暫時離開已登入的app頁面一下，再回來時，還會是登入狀態
 
     // 在有 "code" 的情況下(代表是經由 user去 Github按下授權 app 取用資料後，redirect回來app)，並且local storage中還沒有存放Access Token 時，發出請求去向後端要Access Token 過來存放進local storage 中
     if (parseThecode && (localStorage.getItem('accessToken') === null)) {
       axios.get(`http://localhost:3002/getAccessToken?code=${parseThecode}`)
-        .then((response) => {
-          return response.json()
-        })
-        .then((data) => {
-          console.log(data)
-          if (data.access_token) {
-            localStorage.setItem('accessToken', data.access_token)
+        .then((dataFromBackend) => {
+          console.log(dataFromBackend.data)
+          if (dataFromBackend.data) {
+            localStorage.setItem('accessToken', dataFromBackend.data.slice(13, dataFromBackend.data.length))
             setRerender(!rerender)
           }
         })

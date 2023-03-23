@@ -41,4 +41,9 @@ module.exports = function (app) {
     changeOrigin: true,
   })
   )
+  app.use(createProxyMiddleware('/getAccessToken', {
+    target: 'http://localhost:3002',
+    changeOrigin: true,
+  })
+  )
 }

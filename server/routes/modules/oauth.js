@@ -8,17 +8,19 @@ const CLIENT_SECRET = 'aee41db363ef72e62a58b32651bb8c6c1d43b78a'
 
 router.get('/getAccessToken', express.json(), (req, res) => {
   // "code" being passed from the frontend
+  console.log('get Access Token API is working')
   console.log(req.query.code)
   const parameter = `?client_id=${CLIENT_ID}&client_secret=${CLIENT_SECRET}&code=${req.query.code}`
 
-  Axios.post(`https://github.com/login/oauth/access_token${parameter}`)
-    .then((response) => {
-      return response.json()
-    })
-    .then((data) => {
-      console.log(data)
-      res.json(data)
-    })
+  async function getAccessTokenFromGithub() {
+    try {
+      const fetchAccessToken = await Axios.post(`https://github.com/login/oauth/access_token${parameter}`)
+      return res.json(fetchAccessToken.data)
+    }
+    catch (err) { console.log(err) }
+  }
+
+  getAccessTokenFromGithub()
 })
 
 // get user data
