@@ -84,7 +84,7 @@ module.exports = {
     if (!req.isAuthenticated()) {
       return res.json({
         authenticationState: false,
-        reminder: 'please login'
+        reminder: 'Please login'
       })
     }
     return next()

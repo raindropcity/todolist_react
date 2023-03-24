@@ -4,7 +4,7 @@ import OAuthLogin from "./OAuthLogin"
 import axios from "axios"
 
 export default function Login(props) {
-  const { inputDataUserInfo, setInputDataUserInfo, setInputData, setToRegister, setUsernameForNav, warning, setWarning, setLoginSuccessOrNot } = props
+  const { inputDataUserInfo, setInputDataUserInfo, setInputData, setToRegister, setUsernameForNav, warning, setWarning, setLoginSuccessOrNot, ensureAuthenticatedReminder } = props
 
   const [loginClicked, setLoginClicked] = React.useState(false)
 
@@ -59,6 +59,7 @@ export default function Login(props) {
     <main className="main">
       <div className="form-for-new-edit-login-register">
         <label htmlFor="email">
+          {ensureAuthenticatedReminder === 'Please login' && <h5 className="warning">{ensureAuthenticatedReminder}</h5>}
           <input type="email" name="email" id="email" placeholder="Email" onChange={handleChangeData} value={inputDataUserInfo.email} required />
         </label>
         <label htmlFor="password">

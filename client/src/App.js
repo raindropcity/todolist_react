@@ -41,6 +41,8 @@ function App() {
   const [warning, setWarning] = React.useState({ authenticationState: false, msg: '' })
 
   // useNavigate()只能用在child component中，因此將未通過中介軟體ensureAuthenticated的情況，另外建立一個component，並加入App.js的JSX中
+  const [ensureAuthenticatedReminder, setEnsureAuthenticatedReminder] = React.useState(undefined)
+
   function EnsureAuthenticatedUser() {
     const navigate = useNavigate()
     React.useEffect(() => {
@@ -50,6 +52,7 @@ function App() {
           if (dataFromBackend.data.authenticationState === false) {
             console.log('frontend router protection')
             setLoginSuccessOrNot(false)
+            setEnsureAuthenticatedReminder(dataFromBackend.data.reminder)
             navigate('/todo/login')
           }
         })
@@ -97,7 +100,7 @@ function App() {
             </div>
           </main>
         } />
-        <Route path="/todo/login" element={<Login inputDataUserInfo={inputDataUserInfo} setInputDataUserInfo={setInputDataUserInfo} setInputData={setInputData} setUsernameForNav={setUsernameForNav} setLoginSuccessOrNot={setLoginSuccessOrNot} warning={warning} setWarning={setWarning} setToRegister={setToRegister} />} />
+        <Route path="/todo/login" element={<Login inputDataUserInfo={inputDataUserInfo} setInputDataUserInfo={setInputDataUserInfo} setInputData={setInputData} setUsernameForNav={setUsernameForNav} setLoginSuccessOrNot={setLoginSuccessOrNot} warning={warning} setWarning={setWarning} setToRegister={setToRegister} ensureAuthenticatedReminder={ensureAuthenticatedReminder} />} />
         <Route path="/todo/register" element={<Register inputDataUserInfo={inputDataUserInfo} setInputDataUserInfo={setInputDataUserInfo} setToRegister={setToRegister} />} />
         {/* New */}
         <Route path="/todo/new" element={<New inputData={inputData} setInputData={setInputData} setNewTodoSuccessOrNot={setNewTodoSuccessOrNot} />} />

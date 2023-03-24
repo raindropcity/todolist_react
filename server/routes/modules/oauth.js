@@ -35,6 +35,7 @@ router.get('/getUserData', express.json(), (req, res) => {
     headers: { 'Authorization': req.get('Authorization') } // Bearer Access Token
   })
     .then((response) => {
+      console.log(response)
       return response.json()
     })
     .then((data) => {
