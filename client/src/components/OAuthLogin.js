@@ -2,6 +2,8 @@ import React from "react"
 import axios from "axios"
 
 const CLIENT_ID = 'caa7bc3d870a03fdc550'
+// setting scope for the request of fetching Github user data
+const scope = 'read:user,user:email'
 
 export default function OAuthLogin() {
   // 步驟：
@@ -11,7 +13,7 @@ export default function OAuthLogin() {
   // 此時的網址會變成localhost:3000/?code=ASDFASDFASDF，代表是user成功登入Github後導回來的，並給了一個code (這個code屬於Authorization Grant，代表使用者同意授權TodoList從Github中獲取其資料)
   // 接著用此code來向Github取得access token(注意code只能用一次，因此移除React 的strict mode)
   function loginWithGithub() {
-    window.location.assign(`https://github.com/login/oauth/authorize?client_id=${CLIENT_ID}`)
+    window.location.assign(`https://github.com/login/oauth/authorize?scope=${scope}&client_id=${CLIENT_ID}`)
   }
 
   const [rerender, setRerender] = React.useState(false)

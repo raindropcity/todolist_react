@@ -25,7 +25,7 @@ router.get('/getAccessToken', express.json(), (req, res) => {
 
 // get user data
 // Access token is going to be passed in as an Authorization header
-router.get('getUserData', express.json(), (req, res) => {
+router.get('/getUserData', express.json(), (req, res) => {
   // req.get() returns the specified HTTP request header field which is case-insensitive(不區分大小寫)
   req.get('Authorization') // Bearer Access Token(乘載Access Token)
 
