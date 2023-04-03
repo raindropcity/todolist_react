@@ -6,7 +6,7 @@ https://rays-todolist.onrender.com/todo/login
 ## Features
 |Functions     |Detail  |URL |
 |:--------------:|--------|----|
-|login     |1. User can log in using registered email<br>2. User can get a warning message for incorrect password or unregistered account|/todo/login|
+|login     |1. User can log in using registered email<br>2. User can get a warning message for incorrect password or unregistered account<br>3. Or user can login by pressing 'login with Github' button|/todo/login|
 |register  |1. User can register by valid email, username, and password<br>2. A warning message will prompt when invalid input occurs|/todo/register|
 |view all todos|1. When the User passes the id authentication, the app will navigate to the main page, showing all todos setting by the user<br>2. User can highlight a certain todo|/todo|
 |create a todo |1. User can create new todos with detail<br>2. User can get a warning message for invalid input format|/todo/new|
