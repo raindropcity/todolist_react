@@ -10,9 +10,6 @@ import { Link } from "react-router-dom"
 import axios from "axios"
 import "./App.css"
 
-// 見筆記useContext()
-// export const passInputData = React.createContext()
-
 function App() {
   const [inputData, setInputData] = React.useState({
     userID: "waiting to write",

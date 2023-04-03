@@ -19,7 +19,6 @@ export default function Navbar(props) {
     setUsernameForNav(undefined)
     setWarning({ authenticationState: false, msg: '' })
     setLoginWithGithubSuccess(false)
-    // setLogOutClicked(false)
   }, [logOutClicked, loginSuccessOrNot, usernameForNav])
 
   return (
