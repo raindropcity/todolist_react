@@ -1,7 +1,7 @@
 # todolist_react
 Hi, I'm Ray. My specialized field is real estate investment & management, however, I found some passion in learning programming.  
 I had tried using Javascript, HTML, CSS, Node.js, and Express to build a web application.  
-Recently, I decided to learn the popular framework "React" by developing this project -- "todolist_react".
+Recently, I decided to learn the popular framework "React" by developing this project -- "todolist_react".<br>
 https://rays-todolist.onrender.com/todo/login
 ## Features
 |Functions     |Detail  |URL |
