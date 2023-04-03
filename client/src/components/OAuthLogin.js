@@ -1,11 +1,15 @@
 import React from "react"
+import { useNavigate } from "react-router-dom"
 import axios from "axios"
 
 const CLIENT_ID = 'caa7bc3d870a03fdc550'
 // setting scope for the request of fetching Github user data
-const scope = 'read:user,user:email'
+const scope = 'user'
 
-export default function OAuthLogin() {
+export default function OAuthLogin(props) {
+  const { setInputData, setUsernameForNav, logOutClicked, loginWithGithubSuccess, setLoginWithGithubSuccess } = props
+  const navigate = useNavigate()
+  const [loginWithGithubClicked, setLoginWithGithubClicked] = React.useState(false)
   // 步驟：
   // 將user 導向Github的login畫面(要提供client ID)
   // user登入Github
@@ -13,12 +17,18 @@ export default function OAuthLogin() {
   // 此時的網址會變成localhost:3000/?code=ASDFASDFASDF，代表是user成功登入Github後導回來的，並給了一個code (這個code屬於Authorization Grant，代表使用者同意授權TodoList從Github中獲取其資料)
   // 接著用此code來向Github取得access token(注意code只能用一次，因此移除React 的strict mode)
   function loginWithGithub() {
-    window.location.assign(`https://github.com/login/oauth/authorize?scope=${scope}&client_id=${CLIENT_ID}`)
+    setLoginWithGithubClicked(true)
+    window.location.assign(`https://github.com/login/oauth/authorize?client_id=${CLIENT_ID}&scope=${scope}`)
   }
 
-  const [rerender, setRerender] = React.useState(false)
+  console.log(logOutClicked)
+  console.log(loginWithGithubClicked)
+  console.log(loginWithGithubSuccess)
+
 
   React.useEffect(() => {
+    if (!loginWithGithubClicked) return
+
     const queryString = window.location.search // 回傳 url 中的 parameter(網址中「?帶出的那串字」，又稱為 query；查詢符)
     const urlParameter = new URLSearchParams(queryString)
     const parseThecode = urlParameter.get('code') // URLSearchParams配合 get方法，用來印出 ?code=asdfasdf 中的「asdfasdf」
@@ -33,13 +43,34 @@ export default function OAuthLogin() {
         .then((dataFromBackend) => {
           console.log(dataFromBackend.data)
           if (dataFromBackend.data) {
-            localStorage.setItem('accessToken', dataFromBackend.data.slice(13, dataFromBackend.data.length))
-            setRerender(!rerender)
+            localStorage.setItem('accessToken', dataFromBackend.data.access_token)
           }
         })
         .catch((err) => console.log(err))
     }
 
+    setLoginWithGithubClicked(false)
+  }, [loginWithGithubClicked])
+
+  React.useEffect(() => {
+    if (logOutClicked) return
+    if (localStorage.getItem('accessToken') !== null) {
+      const accessToken = localStorage.getItem('accessToken')
+      axios.post('/getUserDataFromGithub', { accessToken: accessToken })
+        .then((dataFromBackend) => {
+          setInputData((prev) => {
+            return ({
+              ...prev,
+              userID: dataFromBackend.data.userID
+            })
+          })
+
+          setLoginWithGithubSuccess(true)
+          setUsernameForNav(dataFromBackend.data.userName)
+          navigate('/todo')
+        })
+        .catch((err) => console.log(err))
+    }
   }, [])
 
   return (

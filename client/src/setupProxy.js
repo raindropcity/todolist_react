@@ -46,7 +46,7 @@ module.exports = function (app) {
     changeOrigin: true,
   })
   )
-  app.use(createProxyMiddleware('/getUserData', {
+  app.use(createProxyMiddleware('/getUserDataFromGithub', {
     target: 'http://localhost:3002',
     changeOrigin: true,
   })

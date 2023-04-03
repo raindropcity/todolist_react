@@ -4,7 +4,7 @@ import OAuthLogin from "./OAuthLogin"
 import axios from "axios"
 
 export default function Login(props) {
-  const { inputDataUserInfo, setInputDataUserInfo, setInputData, setToRegister, setUsernameForNav, warning, setWarning, setLoginSuccessOrNot, ensureAuthenticatedReminder } = props
+  const { inputDataUserInfo, setInputDataUserInfo, setInputData, setToRegister, setUsernameForNav, warning, setWarning, setLoginSuccessOrNot, ensureAuthenticatedReminder, logOutClicked, setLogOutClicked, loginWithGithubSuccess, setLoginWithGithubSuccess } = props
 
   const [loginClicked, setLoginClicked] = React.useState(false)
 
@@ -36,6 +36,7 @@ export default function Login(props) {
           })
           setUsernameForNav(responseFromBackend.data.user.userName)
           setLoginSuccessOrNot(true)
+          setLogOutClicked(false)
         }
         else if (!responseFromBackend.data.authenticationState) {
           setLoginClicked(false)
@@ -75,7 +76,7 @@ export default function Login(props) {
               }}>register</Link>
             </div>
             <div className="btn-wrap-inner">
-              <OAuthLogin />
+              <OAuthLogin setInputData={setInputData} setUsernameForNav={setUsernameForNav} logOutClicked={logOutClicked} loginWithGithubSuccess={loginWithGithubSuccess} setLoginWithGithubSuccess={setLoginWithGithubSuccess} />
             </div>
             <div className="btn-wrap-inner">
               <button className="btn" onClick={(event) => {

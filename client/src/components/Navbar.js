@@ -3,8 +3,7 @@ import { Link } from "react-router-dom"
 import axios from "axios"
 
 export default function Navbar(props) {
-  const { setInputData, loginSuccessOrNot, setLoginSuccessOrNot, usernameForNav, setUsernameForNav, setWarning } = props
-  const [logOutClicked, setLogOutClicked] = React.useState(false)
+  const { setInputData, loginSuccessOrNot, setLoginSuccessOrNot, usernameForNav, setUsernameForNav, setWarning, logOutClicked, setLogOutClicked, setLoginWithGithubSuccess } = props
 
   React.useEffect(() => {
     if (logOutClicked === false) return
@@ -19,8 +18,9 @@ export default function Navbar(props) {
 
     setUsernameForNav(undefined)
     setWarning({ authenticationState: false, msg: '' })
-    setLogOutClicked(false)
-  }, [logOutClicked, loginSuccessOrNot])
+    setLoginWithGithubSuccess(false)
+    // setLogOutClicked(false)
+  }, [logOutClicked, loginSuccessOrNot, usernameForNav])
 
   return (
     <div className="navbar">

@@ -30,6 +30,7 @@ function App() {
   })
 
   const [usernameForNav, setUsernameForNav] = React.useState(undefined)
+  const [logOutClicked, setLogOutClicked] = React.useState(false)
 
   const [catchTodos, setCatchTodos] = React.useState([])
   const [newTodoSuccessOrNot, setNewTodoSuccessOrNot] = React.useState(false)
@@ -37,6 +38,7 @@ function App() {
   const [deleteTodoSuccessOrNot, setDeleteTodoSuccessOrNot] = React.useState(false)
   const [changeUrgentState, setChangeUrgentState] = React.useState(false)
   const [loginSuccessOrNot, setLoginSuccessOrNot] = React.useState(false)
+  const [loginWithGithubSuccess, setLoginWithGithubSuccess] = React.useState(false)
   const [toRegister, setToRegister] = React.useState(false)
   const [warning, setWarning] = React.useState({ authenticationState: false, msg: '' })
 
@@ -72,7 +74,7 @@ function App() {
     }
 
     fetchData()
-  }, [catchTodos, newTodoSuccessOrNot, editTodoSuccessOrNot, deleteTodoSuccessOrNot, loginSuccessOrNot, usernameForNav, changeUrgentState])
+  }, [catchTodos, newTodoSuccessOrNot, editTodoSuccessOrNot, deleteTodoSuccessOrNot, loginSuccessOrNot, loginWithGithubSuccess, usernameForNav, changeUrgentState])
 
   console.log(catchTodos)
   console.log('re-render')
@@ -86,7 +88,7 @@ function App() {
   return (
     <Router>
       <EnsureAuthenticatedUser />
-      <Navbar setInputData={setInputData} loginSuccessOrNot={loginSuccessOrNot} setLoginSuccessOrNot={setLoginSuccessOrNot} usernameForNav={usernameForNav} setUsernameForNav={setUsernameForNav} setWarning={setWarning} />
+      <Navbar setInputData={setInputData} loginSuccessOrNot={loginSuccessOrNot} setLoginSuccessOrNot={setLoginSuccessOrNot} usernameForNav={usernameForNav} setUsernameForNav={setUsernameForNav} logOutClicked={logOutClicked} setLogOutClicked={setLogOutClicked} setWarning={setWarning} setLoginWithGithubSuccess={setLoginWithGithubSuccess} />
       <Routes>
         {/* 列示所有todo */}
         <Route path="/todo" element={
@@ -100,7 +102,7 @@ function App() {
             </div>
           </main>
         } />
-        <Route path="/todo/login" element={<Login inputDataUserInfo={inputDataUserInfo} setInputDataUserInfo={setInputDataUserInfo} setInputData={setInputData} setUsernameForNav={setUsernameForNav} setLoginSuccessOrNot={setLoginSuccessOrNot} warning={warning} setWarning={setWarning} setToRegister={setToRegister} ensureAuthenticatedReminder={ensureAuthenticatedReminder} />} />
+        <Route path="/todo/login" element={<Login inputDataUserInfo={inputDataUserInfo} setInputDataUserInfo={setInputDataUserInfo} setInputData={setInputData} setUsernameForNav={setUsernameForNav} loginSuccessOrNot={loginSuccessOrNot} setLoginSuccessOrNot={setLoginSuccessOrNot} loginWithGithubSuccess={loginWithGithubSuccess} setLoginWithGithubSuccess={setLoginWithGithubSuccess} warning={warning} setWarning={setWarning} setToRegister={setToRegister} ensureAuthenticatedReminder={ensureAuthenticatedReminder} logOutClicked={logOutClicked} setLogOutClicked={setLogOutClicked} />} />
         <Route path="/todo/register" element={<Register inputDataUserInfo={inputDataUserInfo} setInputDataUserInfo={setInputDataUserInfo} setToRegister={setToRegister} />} />
         {/* New */}
         <Route path="/todo/new" element={<New inputData={inputData} setInputData={setInputData} setNewTodoSuccessOrNot={setNewTodoSuccessOrNot} />} />

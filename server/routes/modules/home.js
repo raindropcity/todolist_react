@@ -5,11 +5,20 @@ const Todo = require('../../models/todo')
 const ensureAuthenticated = require('./passport').ensureAuthenticated
 
 router.get('/api/todo', express.json(), ensureAuthenticated, (req, res) => {
-  Todo.find({ userID: req.user._id })
-    .then((todos) => {
-      res.status(200).json(todos)
-    })
-    .catch((err) => console.log(err))
+  if (req.user) {
+    Todo.find({ userID: req.user._id })
+      .then((todos) => {
+        res.status(200).json(todos)
+      })
+      .catch((err) => console.log(err))
+  }
+  else if (req.session.userID) {
+    Todo.find({ userID: req.session.userID })
+      .then((todos) => {
+        res.status(200).json(todos)
+      })
+      .catch((err) => console.log(err))
+  }
 })
 
 router.put('/api/todo', express.json(), ensureAuthenticated, (req, res) => {

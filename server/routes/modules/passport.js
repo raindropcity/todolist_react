@@ -67,6 +67,9 @@ router.post('/api/todo/login', express.json(),
 )
 
 router.post('/api/todo/logout', express.json(), (req, res) => {
+  console.log('logOut route working')
+  req.session.isLoggedIn = false
+  req.session.userID = undefined
   req.logout((err) => {
     if (err) return console.log(err)
     console.log('logout')
@@ -81,7 +84,15 @@ module.exports = {
   exportedPassport: passport,
   ensureAuthenticated: (req, res, next) => {
     console.log('ensureAuthenticated working')
-    if (!req.isAuthenticated()) {
+    console.log('req.session.isLoggedIn: ' + req.session.isLoggedIn)
+    if (req.session.isLoggedIn) return next()
+    else if (req.session.isLoggedIn) {
+      return res.json({
+        authenticationState: false,
+        reminder: 'Please login'
+      })
+    }
+    else if (!req.isAuthenticated()) {
       return res.json({
         authenticationState: false,
         reminder: 'Please login'
