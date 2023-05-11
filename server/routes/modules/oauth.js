@@ -4,7 +4,7 @@ const Axios = require('axios')
 const User = require('../../models/user')
 
 const CLIENT_ID = 'caa7bc3d870a03fdc550'
-const CLIENT_SECRET = 'aee41db363ef72e62a58b32651bb8c6c1d43b78a'
+const CLIENT_SECRET = 'f455650a42e648c71e1fbaa2ce405a3da3ef7613'
 
 router.get('/getAccessToken', express.json(), (req, res) => {
   // "code" being passed from the frontend
